@@ -1,0 +1,37 @@
+<html>
+<head>
+<title>Home</title>
+<link rel="stylesheet" type="text/css" href={{ url_for('static', filename='main.css') }}>
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600' rel='stylesheet' type='text/css'>
+<script type="text/javascript">
+function focusForm() {
+ document.getElementById("number-input").focus();}
+</script>
+<script language="JavaScript">
+function onlyNumbers(evt)
+{
+	var e = event || evt; // for trans-browser compatibility
+	var charCode = e.which || e.keyCode;
+	if (charCode > 31 && (charCode < 48 || charCode > 57))
+		return false;
+	return true;
+}
+</script>
+</head>
+
+<body onload=focusForm()>
+{% if not session['number_signed_in'] %}
+{% if note %}
+<p class="error">Error processing request. Try again.</p>	
+{% endif %}
+<p class="main-line-one">Sign in securely<br />without a password.</p>
+<form action="{{ url_for('home') }}" method="post">
+	<strong>+1</strong><input name="number-form" placeholder="4045553829" id="number-input" maxlength="10" type="text" onkeypress="return onlyNumbers()">
+	<input type=submit value="verify number" class="submit-button">
+</form>	
+{% else %}
+<p>you appear to be signed in. <a href="/logout">sign out</a></p>
+{% endif %}
+<p class='bottom-options'><a href="http://github.com/zchr/phonein/README.txt">learn more</a> &#47; <a href="http://github.com/zchr/phonein/">view source</a>
+</body>
+</html>
